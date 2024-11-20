@@ -18,7 +18,6 @@ def open_mfdataset(fnames):
 
     """
 
-    # open the dataset using xarray
     ds = xr.open_mfdataset(
         fnames,
         concat_dim="time",
