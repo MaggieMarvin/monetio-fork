@@ -74,5 +74,4 @@ def _fix_grid(ds):
         },
     )
     ds = ds.reset_coords().set_coords(["time", "latitude", "longitude"])
-    del lon, lat
     return ds
