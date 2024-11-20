@@ -1,4 +1,4 @@
-""" GOCART File Reader """
+"""GOCART File Reader."""
 
 import xarray as xr
 
