@@ -13,7 +13,7 @@ def open_mfdataset(fnames):
 
     Returns
     -------
-    xarray.DataSet
+    xarray.Dataset
         GOCART model dataset in standard format for use in MELODIES-MONET
 
     """
