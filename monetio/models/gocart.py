@@ -8,9 +8,8 @@ def open_mfdataset(fnames):
 
     Parameters
     ----------
-    fname : string or list
-        fname is the path to the file or files.  It will accept hot keys in
-        strings as well.
+    fnames
+        String glob expression or a list of files to open.
 
     Returns
     -------
