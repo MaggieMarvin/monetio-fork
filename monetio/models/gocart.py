@@ -14,7 +14,7 @@ def open_mfdataset(fnames):
     Returns
     -------
     xarray.Dataset
-        GOCART model dataset in standard format for use in MELODIES-MONET
+        GOCART model dataset in standard format for use in MELODIES MONET
 
     """
 
