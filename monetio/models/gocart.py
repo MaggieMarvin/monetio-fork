@@ -3,7 +3,7 @@
 import xarray as xr
 
 
-def open_mfdataset(fnames):
+def open_mfdataset(fnames, **kwargs):
     """Method to open GOCART netcdf files.
 
     Parameters
