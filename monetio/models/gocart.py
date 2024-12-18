@@ -1,15 +1,20 @@
 """GOCART File Reader."""
 
+import sys
+
 import xarray as xr
 
 
-def open_mfdataset(fnames, **kwargs):
+def open_mfdataset(fnames, wavelengths=["470", "550", "670", "870"], **kwargs):
     """Method to open GOCART netcdf files.
 
     Parameters
     ----------
     fnames
         String glob expression or a list of files to open.
+    wavelengths
+        List of strings to describe wavelengths of AOD output.
+        Must have the same length as lev dim size.
 
     Returns
     -------
@@ -22,14 +27,49 @@ def open_mfdataset(fnames, **kwargs):
         fnames,
         concat_dim="time",
         combine="nested",
-        drop_variables=["AOD_BC", "AOD_DU", "AOD_OC", "AOD_SS", "AOD_SU"],
     )
 
-    ds["AOD470"] = ds.AOD.isel(lev=0)
-    ds["AOD550"] = ds.AOD.isel(lev=1)
-    ds["AOD670"] = ds.AOD.isel(lev=2)
-    ds["AOD870"] = ds.AOD.isel(lev=3)
-    ds = ds.drop_vars("AOD").drop_dims("lev")
+    if len(wavelengths) != ds.lev.size:
+        print("ERROR: wavelengths list must have the same length as lev dim size")
+        sys.exit()
+
+    wv0 = wavelengths[0]
+    wv1 = wavelengths[1]
+    wv2 = wavelengths[2]
+    wv3 = wavelengths[3]
+
+    ds["AOD" + wv0] = ds["AOD"].isel(lev=0)
+    ds["AOD" + wv1] = ds["AOD"].isel(lev=1)
+    ds["AOD" + wv2] = ds["AOD"].isel(lev=2)
+    ds["AOD" + wv3] = ds["AOD"].isel(lev=3)
+
+    ds["AOD_BC" + wv0] = ds["AOD_BC"].isel(lev=0)
+    ds["AOD_BC" + wv1] = ds["AOD_BC"].isel(lev=1)
+    ds["AOD_BC" + wv2] = ds["AOD_BC"].isel(lev=2)
+    ds["AOD_BC" + wv3] = ds["AOD_BC"].isel(lev=3)
+
+    ds["AOD_DU" + wv0] = ds["AOD_DU"].isel(lev=0)
+    ds["AOD_DU" + wv1] = ds["AOD_DU"].isel(lev=1)
+    ds["AOD_DU" + wv2] = ds["AOD_DU"].isel(lev=2)
+    ds["AOD_DU" + wv3] = ds["AOD_DU"].isel(lev=3)
+
+    ds["AOD_OC" + wv0] = ds["AOD_OC"].isel(lev=0)
+    ds["AOD_OC" + wv1] = ds["AOD_OC"].isel(lev=1)
+    ds["AOD_OC" + wv2] = ds["AOD_OC"].isel(lev=2)
+    ds["AOD_OC" + wv3] = ds["AOD_OC"].isel(lev=3)
+
+    ds["AOD_SS" + wv0] = ds["AOD_SS"].isel(lev=0)
+    ds["AOD_SS" + wv1] = ds["AOD_SS"].isel(lev=1)
+    ds["AOD_SS" + wv2] = ds["AOD_SS"].isel(lev=2)
+    ds["AOD_SS" + wv3] = ds["AOD_SS"].isel(lev=3)
+
+    ds["AOD_SU" + wv0] = ds["AOD_SU"].isel(lev=0)
+    ds["AOD_SU" + wv1] = ds["AOD_SU"].isel(lev=1)
+    ds["AOD_SU" + wv2] = ds["AOD_SU"].isel(lev=2)
+    ds["AOD_SU" + wv3] = ds["AOD_SU"].isel(lev=3)
+
+    ds = ds.drop_vars(["AOD", "AOD_BC", "AOD_DU", "AOD_OC", "AOD_SS", "AOD_SU"])
+    ds = ds.drop_dims("lev")
 
     ds = _fix(ds)
 
